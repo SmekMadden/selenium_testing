@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 
 from generator.generator import generated_person
 from pages.base_page import BasePage
-from locators.element_page_locators import TextBoxPageLocators, CheckBoxPageLocators
+from locators.element_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonLocators
 
 
 class TextBoxPage(BasePage):
@@ -59,3 +59,26 @@ class CheckBoxPage(BasePage):
 
         assert selected_box_names == output_box_names, \
             'Names of selected boxes and names in result message are not match'
+
+
+class RadioButtonPage(BasePage):
+    locators = RadioButtonLocators()
+    button_name = {'Yes': locators.YES,
+                   'Impressive': locators.IMPRESSIVE,
+                   'No': locators.NO}
+
+    def click_radio_button(self, locator=None):
+        self.element_is_present(locator).click()
+        # time.sleep(3)
+
+    def get_button_name(self, locator):
+        return self.element_is_visible(locator).text
+
+    def get_button_name_from_success_message(self):
+        return self.element_is_present(self.locators.SUCCESS_TEXT).text
+
+    def validate_button(self, locator):
+        self.click_radio_button(locator)
+        name = self.get_button_name(locator)
+        assert name == self.get_button_name_from_success_message(), \
+            'Clicked button and result do not match'
