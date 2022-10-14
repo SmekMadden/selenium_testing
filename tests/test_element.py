@@ -1,6 +1,6 @@
 import time
 
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage
+from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTables
 
 
 class TestTextBox:
@@ -33,3 +33,22 @@ class TestRadioButton:
         page.validate_button(page.button_name['Yes'])
         page.validate_button(page.button_name['Impressive'])
         page.validate_button(page.button_name['No'])  # bug!
+
+
+class TestWebTables:
+    def test_web_table_add_person(self, driver):
+        page = WebTables(driver, 'https://demoqa.com./webtables')
+        page.open()
+        page.open_registration_form()
+        page.fill_registration_form()
+        page.get_persons_from_table()
+        page.check_registered_person_in_table()
+
+    def test_web_table_search_person(self, driver):
+        page = WebTables(driver, 'https://demoqa.com./webtables')
+        page.open()
+        page.open_registration_form()
+        reg_person_data = page.fill_registration_form()
+        page.search_registered_person()
+        person_data = page.get_person_data()
+        page.verify_that_data_matches(reg_person_data, person_data)

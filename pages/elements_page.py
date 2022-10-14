@@ -4,9 +4,10 @@ from selenium.webdriver.support.ui import WebDriverWait as Wait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-from generator.generator import generated_person
+from generator.generator import generated_person, GeneratePerson
 from pages.base_page import BasePage
-from locators.element_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonLocators
+from locators.element_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonLocators, \
+    WebTablesLocators
 
 
 class TextBoxPage(BasePage):
@@ -82,3 +83,59 @@ class RadioButtonPage(BasePage):
         name = self.get_button_name(locator)
         assert name == self.get_button_name_from_success_message(), \
             'Clicked button and result do not match'
+
+
+class WebTables(BasePage):
+    locators = WebTablesLocators
+
+    def __init__(self, driver, url):
+        super().__init__(driver, url)
+        self.last_registered_person = []
+        self.persons_table = []
+
+    def open_registration_form(self):
+        self.element_is_present(self.locators.ADD_BUTTON).click()
+
+    def fill_registration_form(self):
+        person = GeneratePerson('ru_RU').result
+
+        self.element_is_visible(self.locators.FIRSTNAME_INPUT).send_keys(person['firstname'])
+        self.element_is_visible(self.locators.LASTNAME_INPUT).send_keys(person['lastname'])
+        self.element_is_visible(self.locators.AGE_INPUT).send_keys(person['age'])
+        self.element_is_visible(self.locators.EMAIL_INPUT).send_keys(person['email'])
+        self.element_is_visible(self.locators.SALARY_INPUT).send_keys(person['salary'])
+        self.element_is_visible(self.locators.DEPARTMENT_INPUT).send_keys(person['department'])
+        self.element_is_visible(self.locators.SUBMIT_BTN).click()
+        for item in ('firstname', 'lastname', 'age', 'email', 'salary', 'department'):
+            self.last_registered_person.append(str(person[item]))
+
+        return self.last_registered_person
+
+    def get_persons_from_table(self):
+        people_list = self.elements_are_present(self.locators.ALL_PEOPLE_LIST)
+        data = []
+        for item in people_list:
+            data.append(item.text.splitlines())
+        self.persons_table = data
+
+    def check_registered_person_in_table(self):
+        print(f'\n {self.last_registered_person}\n{self.persons_table}')
+        assert self.last_registered_person in self.persons_table, \
+            'Registered person is not in table'
+
+    def search_some_person(self, key_word):
+        self.element_is_visible(self.locators.SEARCH_FIELD).send_keys(key_word)
+
+    def search_registered_person(self):
+        # Search by random person attribute
+        attribute = random.randrange(len(self.last_registered_person))
+        self.search_some_person(self.last_registered_person[attribute])
+
+    def get_person_data(self):
+        del_btn = self.element_is_present(self.locators.DELETE_BUTTON)
+        return del_btn.find_element(*self.locators.ROW_PARENT).text.splitlines()
+
+    @staticmethod
+    def verify_that_data_matches(data1, data2):
+        assert data1 == data2, \
+            'Data does not match with registered person'

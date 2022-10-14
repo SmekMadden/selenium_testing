@@ -1,3 +1,5 @@
+import random
+
 from data.data import Person
 from faker import Faker
 
@@ -12,3 +14,16 @@ def generated_person():
         current_address=faker_ru.address(),
         permanent_address=faker_ru.address(),
     )
+
+
+class GeneratePerson:
+    def __init__(self, language='ru_RU'):
+        self.fake = Faker(language)
+        self.result = {
+            'firstname': self.fake.first_name(),
+            'lastname': self.fake.first_name(),
+            'age': random.randint(10, 80),
+            'email': self.fake.email(),
+            'salary': random.randrange(10000, 100000),
+            'department': self.fake.job()
+        }

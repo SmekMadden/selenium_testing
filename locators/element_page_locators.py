@@ -30,3 +30,20 @@ class RadioButtonLocators:
     IMPRESSIVE = (By.CSS_SELECTOR, 'label[for="impressiveRadio"]')
     NO = (By.CSS_SELECTOR, 'label[for="noRadio"]')
     SUCCESS_TEXT = (By.CSS_SELECTOR, 'p span[class="text-success"]')
+
+
+class WebTablesLocators:
+    # add person
+    ADD_BUTTON = (By.CSS_SELECTOR, "#addNewRecordButton")
+    FIRSTNAME_INPUT = (By.CSS_SELECTOR, '#firstName')
+    LASTNAME_INPUT = (By.CSS_SELECTOR, '#lastName')
+    EMAIL_INPUT = (By.CSS_SELECTOR, '#userEmail')
+    AGE_INPUT = (By.CSS_SELECTOR, '#age')
+    SALARY_INPUT = (By.CSS_SELECTOR, '#salary')
+    DEPARTMENT_INPUT = (By.CSS_SELECTOR, '#department')
+    SUBMIT_BTN = (By.CSS_SELECTOR, '#submit')
+    # tables
+    ALL_PEOPLE_LIST = (By.CSS_SELECTOR, '.rt-tr-group')
+    SEARCH_FIELD = (By.CSS_SELECTOR, '#searchBox')
+    DELETE_BUTTON = (By.CSS_SELECTOR, 'span[title="Delete"]')
+    ROW_PARENT = (By.XPATH, './/ancestor::div[@class="rt-tr-group"]')
