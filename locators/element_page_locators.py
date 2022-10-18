@@ -47,3 +47,13 @@ class WebTablesLocators:
     SEARCH_FIELD = (By.CSS_SELECTOR, '#searchBox')
     DELETE_BUTTON = (By.CSS_SELECTOR, 'span[title="Delete"]')
     ROW_PARENT = (By.XPATH, './/ancestor::div[@class="rt-tr-group"]')
+
+
+class TestButtonPageLocators:
+    DOUBLE_CLICK = (By.CSS_SELECTOR, '#doubleClickBtn')
+    RIGHT_CLICK = (By.CSS_SELECTOR, '#rightClickBtn')
+    CLICK_ME = (By.XPATH, "//*[..='Click Me']")
+
+    DOUBLE_CLK_MESSAGE = (By.CSS_SELECTOR, '#doubleClickMessage')
+    RIGHT_CLK_MESSAGE = (By.CSS_SELECTOR, '[id="rightClickMessage"]')
+    CLICK_ME_MESSAGE = (By.CSS_SELECTOR, '#dynamicClickMessage')

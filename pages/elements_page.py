@@ -1,14 +1,17 @@
 import random
 import time
-from selenium.webdriver.support.ui import WebDriverWait as Wait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
+# from selenium.webdriver.support.ui import WebDriverWait as Wait
+# from selenium.webdriver.support import expected_conditions as EC
+# from selenium.webdriver.common.by import By
 
+from selenium.webdriver import ActionChains
 from generator.generator import generated_person, GeneratePerson
 from pages.base_page import BasePage
-from locators.element_page_locators import TextBoxPageLocators, CheckBoxPageLocators, RadioButtonLocators, \
-    WebTablesLocators
+from locators.element_page_locators import *
 
+
+# TextBoxPageLocators, CheckBoxPageLocators, RadioButtonLocators, \
+# WebTablesLocators, TestButtonPageLocators
 
 class TextBoxPage(BasePage):
     locators = TextBoxPageLocators()
@@ -139,3 +142,27 @@ class WebTables(BasePage):
     def verify_that_data_matches(data1, data2):
         assert data1 == data2, \
             'Data does not match with registered person'
+
+
+class Buttons(BasePage):
+    loc = TestButtonPageLocators
+
+    def click_double_click_button(self):
+        btn = self.element_is_present(self.loc.DOUBLE_CLICK)
+        self.action_double_click(btn)
+
+    def click_right_click_button(self):
+        btn = self.element_is_visible(self.loc.RIGHT_CLICK)
+        self.action_right_click(btn)
+
+    def click_click_me_button(self):
+        self.element_is_visible(self.loc.CLICK_ME).click()
+
+    def double_click_message_is_presented(self):
+        return self.element_is_present(self.loc.DOUBLE_CLK_MESSAGE)
+
+    def right_click_message_is_presented(self):
+        return self.element_is_present(self.loc.RIGHT_CLK_MESSAGE)
+
+    def click_me_message_is_presented(self):
+        return self.element_is_present(self.loc.CLICK_ME_MESSAGE)

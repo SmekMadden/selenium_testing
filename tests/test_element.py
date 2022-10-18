@@ -1,6 +1,7 @@
 import time
 
-from pages.elements_page import TextBoxPage, CheckBoxPage, RadioButtonPage, WebTables
+from pages.elements_page import *
+from selenium.webdriver import ActionChains
 
 
 class TestTextBox:
@@ -52,3 +53,16 @@ class TestWebTables:
         page.search_registered_person()
         person_data = page.get_person_data()
         page.verify_that_data_matches(reg_person_data, person_data)
+
+
+class TestButtons:
+    def test_buttons_click(self, driver):
+        page = Buttons(driver, 'https://demoqa.com./buttons')
+        page.open()
+        # separately to better localize
+        page.click_double_click_button()
+        print(page.double_click_message_is_presented().text)
+        page.click_right_click_button()
+        print(page.right_click_message_is_presented().text)
+        page.click_click_me_button()
+        print(page.click_me_message_is_presented().text)
