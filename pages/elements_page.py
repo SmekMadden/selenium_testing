@@ -3,7 +3,7 @@ import time
 # from selenium.webdriver.support.ui import WebDriverWait as Wait
 # from selenium.webdriver.support import expected_conditions as EC
 # from selenium.webdriver.common.by import By
-
+import requests
 from selenium.webdriver import ActionChains
 from generator.generator import generated_person, GeneratePerson
 from pages.base_page import BasePage
@@ -144,7 +144,7 @@ class WebTables(BasePage):
             'Data does not match with registered person'
 
 
-class Buttons(BasePage):
+class ButtonsPage(BasePage):
     loc = TestButtonPageLocators
 
     def click_double_click_button(self):
@@ -166,3 +166,49 @@ class Buttons(BasePage):
 
     def click_me_message_is_presented(self):
         return self.element_is_present(self.loc.CLICK_ME_MESSAGE)
+
+
+class LinksPage(BasePage):
+    loc = LinkPageLocators()
+
+    def check_link_that_open_new_tab(self, locator, status_code):
+        link = self.element_is_visible(locator)
+        href_url = link.get_attribute('href')
+        self.assert_status_code(href_url, status_code)
+        link.click()
+        self.switch_to_the_new_tab()
+        assert href_url == self.driver.current_url, 'href link and opened page link are not equal'
+        self.driver.close()
+        self.switch_to_the_first_tab()
+
+    def check_home_link(self):
+        self.check_link_that_open_new_tab(self.loc.SIMPLE_LINK, 200)
+
+    def check_dynamic_link(self):
+        self.check_link_that_open_new_tab(self.loc.DYNAMIC_LINK, 200)
+
+    def check_an_api_call_link(self, locator, status_code):
+        link = self.element_is_visible(locator)
+        href_url = link.get_attribute('href')
+        self.assert_status_code(href_url, status_code)
+
+    def check_created_link(self):
+        self.check_an_api_call_link(self.loc.CREATED, 201)
+
+    def check_no_content_link(self):
+        self.check_an_api_call_link(self.loc.NO_CONTENT, 204)
+
+    def check_moved_link(self):
+        self.check_an_api_call_link(self.loc.MOVED, 301)
+
+    def check_bad_request_link(self):
+        self.check_an_api_call_link(self.loc.BAD_REQUEST, 400)
+
+    def check_unauthorized_link(self):
+        self.check_an_api_call_link(self.loc.UNAUTHORIZED, 401)
+
+    def check_forbidden_link(self):
+        self.check_an_api_call_link(self.loc.FORBIDDEN, 403)
+
+    def check_not_found_link(self):
+        self.check_an_api_call_link(self.loc.NOT_FOUND, 404)

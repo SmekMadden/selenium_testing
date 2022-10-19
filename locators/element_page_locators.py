@@ -57,3 +57,15 @@ class TestButtonPageLocators:
     DOUBLE_CLK_MESSAGE = (By.CSS_SELECTOR, '#doubleClickMessage')
     RIGHT_CLK_MESSAGE = (By.CSS_SELECTOR, '[id="rightClickMessage"]')
     CLICK_ME_MESSAGE = (By.CSS_SELECTOR, '#dynamicClickMessage')
+
+
+class LinkPageLocators:
+    SIMPLE_LINK = (By.CSS_SELECTOR, '#simpleLink')
+    DYNAMIC_LINK = (By.CSS_SELECTOR, '#dynamicLink')
+    BAD_REQUEST = (By.CSS_SELECTOR, '#bad-request')
+    CREATED = (By.CSS_SELECTOR, '#created')
+    NO_CONTENT = (By.CSS_SELECTOR, '#no-content')
+    MOVED = (By.CSS_SELECTOR, '#moved')
+    UNAUTHORIZED = (By.CSS_SELECTOR, '#unauthorized')
+    FORBIDDEN = (By.CSS_SELECTOR, '#unauthorized')
+    NOT_FOUND = (By.CSS_SELECTOR, '#invalid-url')

@@ -57,7 +57,7 @@ class TestWebTables:
 
 class TestButtons:
     def test_buttons_click(self, driver):
-        page = Buttons(driver, 'https://demoqa.com./buttons')
+        page = ButtonsPage(driver, 'https://demoqa.com./buttons')
         page.open()
         # separately to better localize
         page.click_double_click_button()
@@ -66,3 +66,23 @@ class TestButtons:
         print(page.right_click_message_is_presented().text)
         page.click_click_me_button()
         print(page.click_me_message_is_presented().text)
+
+
+class TestLinks:
+
+    def test_check_link(self, driver):
+        page = LinksPage(driver, 'https://demoqa.com./links')
+        page.open()
+        page.check_home_link()
+        page.check_dynamic_link()
+
+    def test_broken_links(self, driver):
+        page = LinksPage(driver, 'https://demoqa.com./links')
+        page.open()
+        page.check_created_link()
+        page.check_no_content_link()
+        page.check_moved_link()
+        page.check_bad_request_link()
+        page.check_unauthorized_link()
+        page.check_forbidden_link()
+        page.check_not_found_link()
