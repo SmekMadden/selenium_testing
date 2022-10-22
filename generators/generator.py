@@ -1,3 +1,4 @@
+import os
 import random
 
 from data.data import Person
@@ -27,3 +28,19 @@ class GeneratePerson:
             'salary': random.randrange(10000, 100000),
             'department': self.fake.job()
         }
+
+
+class GenerateFile:
+    def __init__(self, file_name='file.txt'):
+        self.file_name = file_name
+        self.current_dir = os.path.abspath(os.path.dirname(__file__))
+        self.file_path = os.path.join(self.current_dir, self.file_name)
+        self.file = None
+
+    def create_file(self):
+        self.file = open(self.file_path, 'w+')
+        self.file.close()
+
+    def delete_file(self):
+        self.file.close()
+        os.remove(self.file_path)

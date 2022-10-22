@@ -1,7 +1,5 @@
-import time
-
+from generators.generator import GenerateFile
 from pages.elements_page import *
-from selenium.webdriver import ActionChains
 
 
 class TestTextBox:
@@ -86,3 +84,23 @@ class TestLinks:
         page.check_unauthorized_link()
         page.check_forbidden_link()
         page.check_not_found_link()
+
+
+class TestUploadAndDownload:
+    def test_upload_file(self, driver):
+        page = UploadAndDownloadPage(driver, 'https://demoqa.com./upload-download')
+        page.open()
+        file = GenerateFile()
+        try:
+            file.create_file()
+            page.upload_file(file.file_path)
+            page.assert_result_filename_equal_filename(file.file_name)
+        finally:
+            file.delete_file()
+
+    def test_download_file(self, driver):
+        page = UploadAndDownloadPage(driver, 'https://demoqa.com./upload-download')
+        page.open()
+        file_path = page.download_file()
+        assert os.path.exists(file_path), 'File is not downloaded'
+        os.remove(file_path)

@@ -1,17 +1,12 @@
+import base64
+import os
 import random
 import time
-# from selenium.webdriver.support.ui import WebDriverWait as Wait
-# from selenium.webdriver.support import expected_conditions as EC
-# from selenium.webdriver.common.by import By
-import requests
-from selenium.webdriver import ActionChains
-from generator.generator import generated_person, GeneratePerson
-from pages.base_page import BasePage
+
+from generators.generator import generated_person, GeneratePerson
 from locators.element_page_locators import *
+from pages.base_page import BasePage
 
-
-# TextBoxPageLocators, CheckBoxPageLocators, RadioButtonLocators, \
-# WebTablesLocators, TestButtonPageLocators
 
 class TextBoxPage(BasePage):
     locators = TextBoxPageLocators()
@@ -212,3 +207,30 @@ class LinksPage(BasePage):
 
     def check_not_found_link(self):
         self.check_an_api_call_link(self.loc.NOT_FOUND, 404)
+
+
+class UploadAndDownloadPage(BasePage):
+    loc = UploadAndDownloadLocators
+
+    def download(self):
+        self.element_is_visible(self.loc.DOWNLOAD_BUTTON).click()
+
+    def upload_file(self, file_path):
+        self.element_is_present(self.loc.SELECT_FILE).send_keys(file_path)
+
+    def assert_result_filename_equal_filename(self, file_name):
+        result = self.element_is_present(self.loc.UPLOADED_RESULT).text
+        result_filename = result.split("\\")[-1]
+        assert result_filename == file_name, 'Result filename is not equal to the filename'
+
+    def download_file(self):
+        link = self.element_is_present(self.loc.DOWNLOAD_BUTTON).get_attribute('href')
+
+        decoded = base64.b64decode(link)
+        offset = decoded.find(b'\xff\xd8')
+        file_path = os.path.join(os.path.abspath(os.path.dirname(__file__)) + '\\..', 'file.jpg')
+
+        with open(file_path, 'wb+') as f:
+            f.write(decoded[offset:])
+
+        return file_path

@@ -69,3 +69,9 @@ class LinkPageLocators:
     UNAUTHORIZED = (By.CSS_SELECTOR, '#unauthorized')
     FORBIDDEN = (By.CSS_SELECTOR, '#unauthorized')
     NOT_FOUND = (By.CSS_SELECTOR, '#invalid-url')
+
+
+class UploadAndDownloadLocators:
+    DOWNLOAD_BUTTON = (By.CSS_SELECTOR, '#downloadButton')
+    SELECT_FILE = (By.CSS_SELECTOR, '#uploadFile')
+    UPLOADED_RESULT = (By.CSS_SELECTOR, '[id="uploadedFilePath"]')
