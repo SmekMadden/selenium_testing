@@ -104,3 +104,24 @@ class TestUploadAndDownload:
         file_path = page.download_file()
         assert os.path.exists(file_path), 'File is not downloaded'
         os.remove(file_path)
+
+
+class TestDynamicPropertiesPage:
+
+    def test_enable_button(self, driver):
+        page = DynamicPropertiesPage(driver, 'https://demoqa.com./dynamic-properties')
+        page.open()
+        page.check_enable_button_is_enable()
+
+    def test_change_color_button(self, driver):
+        page = DynamicPropertiesPage(driver, 'https://demoqa.com./dynamic-properties')
+        page.open()
+        color = page.get_color_button_color()
+        page.check_that_color_button_is_not_changing_color(color, 4)
+        time.sleep(1)
+        page.check_that_color_button_changed_color(color)
+
+    def test_appear_button(self, driver):
+        page = DynamicPropertiesPage(driver, 'https://demoqa.com./dynamic-properties')
+        page.open()
+        page.check_appear_button_is_appear_after_n_secs(5)

@@ -3,6 +3,8 @@ import os
 import random
 import time
 
+from selenium.common import TimeoutException
+
 from generators.generator import generated_person, GeneratePerson
 from locators.element_page_locators import *
 from pages.base_page import BasePage
@@ -234,3 +236,40 @@ class UploadAndDownloadPage(BasePage):
             f.write(decoded[offset:])
 
         return file_path
+
+
+class DynamicPropertiesPage(BasePage):
+    loc = DynamicPropertiesPageLocators
+
+    def check_enable_button_is_enable(self):
+        self.element_is_clickable(self.loc.WILL_ENABLE_BUTTON, timeout=5)
+
+    def check_that_color_button_is_not_changing_color(self, color, secs=4):
+        default_color = color
+
+        for i in range(secs):
+            time.sleep(1)
+            new_color = self.get_color_button_color()
+
+            assert new_color == default_color, \
+                f'Color changed before {secs} seconds'
+
+    def get_color_button_color(self):
+        button = self.element_is_present(self.loc.COLOR_CHANGE_BUTTON)
+        return button.value_of_css_property('color')
+
+    def check_that_color_button_changed_color(self, color):
+        new_color = self.get_color_button_color()
+        assert color != new_color, "Color didn't change"
+
+    def check_appear_button_is_appear_after_n_secs(self, secs):
+        button = self.loc.VISIBLE_AFTER_BUTTON
+
+        try:
+            for i in range(secs):
+                self.element_is_not_visible(button)
+                time.sleep(1)
+        except TimeoutException:
+            assert 0, f'Element appeared before {secs} seconds'
+
+        self.element_is_visible(button, timeout=0)
