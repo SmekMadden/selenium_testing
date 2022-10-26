@@ -54,3 +54,6 @@ class BasePage:
         else:
             assert r.status_code == valid_status_code, 'Status code is not equal to expected'
         return self
+
+    def wait_for_alert(self, timeout=2):
+        Wait(self.driver, timeout).until(EC.alert_is_present())
