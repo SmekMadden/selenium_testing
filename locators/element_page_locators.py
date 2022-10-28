@@ -23,3 +23,61 @@ class CheckBoxPageLocators:
     RESULT_MESSAGE = (By.CSS_SELECTOR, '#result')
     BOX_NAMES_FROM_RESULT = (By.CSS_SELECTOR, 'span.text-success')
     CHECKBOX_TITLE = (By.XPATH, './/ancestor::span[@class="rct-text"]')
+
+
+class RadioButtonLocators:
+    YES = (By.CSS_SELECTOR, '[for="yesRadio"]')
+    IMPRESSIVE = (By.CSS_SELECTOR, 'label[for="impressiveRadio"]')
+    NO = (By.CSS_SELECTOR, 'label[for="noRadio"]')
+    SUCCESS_TEXT = (By.CSS_SELECTOR, 'p span[class="text-success"]')
+
+
+class WebTablesLocators:
+    # add person
+    ADD_BUTTON = (By.CSS_SELECTOR, "#addNewRecordButton")
+    FIRSTNAME_INPUT = (By.CSS_SELECTOR, '#firstName')
+    LASTNAME_INPUT = (By.CSS_SELECTOR, '#lastName')
+    EMAIL_INPUT = (By.CSS_SELECTOR, '#userEmail')
+    AGE_INPUT = (By.CSS_SELECTOR, '#age')
+    SALARY_INPUT = (By.CSS_SELECTOR, '#salary')
+    DEPARTMENT_INPUT = (By.CSS_SELECTOR, '#department')
+    SUBMIT_BTN = (By.CSS_SELECTOR, '#submit')
+    # tables
+    ALL_PEOPLE_LIST = (By.CSS_SELECTOR, '.rt-tr-group')
+    SEARCH_FIELD = (By.CSS_SELECTOR, '#searchBox')
+    DELETE_BUTTON = (By.CSS_SELECTOR, 'span[title="Delete"]')
+    ROW_PARENT = (By.XPATH, './/ancestor::div[@class="rt-tr-group"]')
+
+
+class TestButtonPageLocators:
+    DOUBLE_CLICK = (By.CSS_SELECTOR, '#doubleClickBtn')
+    RIGHT_CLICK = (By.CSS_SELECTOR, '#rightClickBtn')
+    CLICK_ME = (By.XPATH, "//*[..='Click Me']")
+
+    DOUBLE_CLK_MESSAGE = (By.CSS_SELECTOR, '#doubleClickMessage')
+    RIGHT_CLK_MESSAGE = (By.CSS_SELECTOR, '[id="rightClickMessage"]')
+    CLICK_ME_MESSAGE = (By.CSS_SELECTOR, '#dynamicClickMessage')
+
+
+class LinkPageLocators:
+    SIMPLE_LINK = (By.CSS_SELECTOR, '#simpleLink')
+    DYNAMIC_LINK = (By.CSS_SELECTOR, '#dynamicLink')
+    BAD_REQUEST = (By.CSS_SELECTOR, '#bad-request')
+    CREATED = (By.CSS_SELECTOR, '#created')
+    NO_CONTENT = (By.CSS_SELECTOR, '#no-content')
+    MOVED = (By.CSS_SELECTOR, '#moved')
+    UNAUTHORIZED = (By.CSS_SELECTOR, '#unauthorized')
+    FORBIDDEN = (By.CSS_SELECTOR, '#unauthorized')
+    NOT_FOUND = (By.CSS_SELECTOR, '#invalid-url')
+
+
+class UploadAndDownloadLocators:
+    DOWNLOAD_BUTTON = (By.CSS_SELECTOR, '#downloadButton')
+    SELECT_FILE = (By.CSS_SELECTOR, '#uploadFile')
+    UPLOADED_RESULT = (By.CSS_SELECTOR, '[id="uploadedFilePath"]')
+
+
+class DynamicPropertiesPageLocators:
+    WILL_ENABLE_BUTTON = (By.CSS_SELECTOR, '#enableAfter')
+    COLOR_CHANGE_BUTTON = (By.CSS_SELECTOR, '#colorChange')
+    VISIBLE_AFTER_BUTTON = (By.CSS_SELECTOR, '#visibleAfter')

@@ -1,6 +1,7 @@
+import requests
+from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait as Wait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.by import By
 
 
 class BasePage:
@@ -31,3 +32,25 @@ class BasePage:
 
     def go_to_element(self, element):
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
+
+    def action_double_click(self, element):
+        action = ActionChains(self.driver)
+        action.double_click(element).perform()
+
+    def action_right_click(self, element):
+        action = ActionChains(self.driver)
+        action.context_click(element).perform()
+
+    def switch_to_the_new_tab(self):
+        self.driver.switch_to.window(self.driver.window_handles[1])
+
+    def switch_to_the_first_tab(self):
+        self.driver.switch_to.window(self.driver.window_handles[0])
+
+    def assert_status_code(self, url, valid_status_code):
+        r = requests.get(url)
+        if isinstance(valid_status_code, list):
+            assert r.status_code in valid_status_code, 'Status code is not equal to expected'
+        else:
+            assert r.status_code == valid_status_code, 'Status code is not equal to expected'
+        return self

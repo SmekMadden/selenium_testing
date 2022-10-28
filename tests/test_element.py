@@ -1,6 +1,5 @@
-import time
-
-from pages.elements_page import TextBoxPage, CheckBoxPage
+from generators.generator import GenerateFile
+from pages.elements_page import *
 
 
 class TestTextBox:
@@ -24,3 +23,105 @@ class TestCheckBox:
         page.click_random_checkbox()
         page.compare_clicked_checkboxes_with_result_message()
         time.sleep(1)
+
+
+class TestRadioButton:
+    def test_radio_button(self, driver):
+        page = RadioButtonPage(driver, 'https://demoqa.com./radio-button')
+        page.open()
+        page.validate_button(page.button_name['Yes'])
+        page.validate_button(page.button_name['Impressive'])
+        page.validate_button(page.button_name['No'])  # bug!
+
+
+class TestWebTables:
+    def test_web_table_add_person(self, driver):
+        page = WebTables(driver, 'https://demoqa.com./webtables')
+        page.open()
+        page.open_registration_form()
+        page.fill_registration_form()
+        page.get_persons_from_table()
+        page.check_registered_person_in_table()
+
+    def test_web_table_search_person(self, driver):
+        page = WebTables(driver, 'https://demoqa.com./webtables')
+        page.open()
+        page.open_registration_form()
+        reg_person_data = page.fill_registration_form()
+        page.search_registered_person()
+        person_data = page.get_person_data()
+        page.verify_that_data_matches(reg_person_data, person_data)
+
+
+class TestButtons:
+    def test_buttons_click(self, driver):
+        page = ButtonsPage(driver, 'https://demoqa.com./buttons')
+        page.open()
+        # separately to better localize
+        page.click_double_click_button()
+        print(page.double_click_message_is_presented().text)
+        page.click_right_click_button()
+        print(page.right_click_message_is_presented().text)
+        page.click_click_me_button()
+        print(page.click_me_message_is_presented().text)
+
+
+class TestLinks:
+
+    def test_check_link(self, driver):
+        page = LinksPage(driver, 'https://demoqa.com./links')
+        page.open()
+        page.check_home_link()
+        page.check_dynamic_link()
+
+    def test_broken_links(self, driver):
+        page = LinksPage(driver, 'https://demoqa.com./links')
+        page.open()
+        page.check_created_link()
+        page.check_no_content_link()
+        page.check_moved_link()
+        page.check_bad_request_link()
+        page.check_unauthorized_link()
+        page.check_forbidden_link()
+        page.check_not_found_link()
+
+
+class TestUploadAndDownload:
+    def test_upload_file(self, driver):
+        page = UploadAndDownloadPage(driver, 'https://demoqa.com./upload-download')
+        page.open()
+        file = GenerateFile()
+        try:
+            file.create_file()
+            page.upload_file(file.file_path)
+            page.assert_result_filename_equal_filename(file.file_name)
+        finally:
+            file.delete_file()
+
+    def test_download_file(self, driver):
+        page = UploadAndDownloadPage(driver, 'https://demoqa.com./upload-download')
+        page.open()
+        file_path = page.download_file()
+        assert os.path.exists(file_path), 'File is not downloaded'
+        os.remove(file_path)
+
+
+class TestDynamicPropertiesPage:
+
+    def test_enable_button(self, driver):
+        page = DynamicPropertiesPage(driver, 'https://demoqa.com./dynamic-properties')
+        page.open()
+        page.check_enable_button_is_enable()
+
+    def test_change_color_button(self, driver):
+        page = DynamicPropertiesPage(driver, 'https://demoqa.com./dynamic-properties')
+        page.open()
+        color = page.get_color_button_color()
+        page.check_that_color_button_is_not_changing_color(color, 4)
+        time.sleep(1)
+        page.check_that_color_button_changed_color(color)
+
+    def test_appear_button(self, driver):
+        page = DynamicPropertiesPage(driver, 'https://demoqa.com./dynamic-properties')
+        page.open()
+        page.check_appear_button_is_appear_after_n_secs(5)
