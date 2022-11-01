@@ -16,3 +16,9 @@ class AlertsPageLocators:
     CONFIRM_RESULT = (By.CSS_SELECTOR, '#confirmResult')
     PROMT_BOX_ALERT_B = (By.CSS_SELECTOR, '#promtButton')
     PROMPT_RESULT = (By.CSS_SELECTOR, '#promptResult')
+
+
+class FramesPageLocators:
+    FIRST_FRAME = (By.CSS_SELECTOR, '#frame1')
+    SECOND_FRAME = (By.CSS_SELECTOR, '#frame2')
+    TITLE_FRAME = (By.CSS_SELECTOR, '#sampleHeading')

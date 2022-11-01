@@ -2,7 +2,7 @@ import time
 
 from faker import Faker
 
-from pages.alerts_frame_window_page import BrowserWindowPage, AlertsPage
+from pages.alerts_frame_window_page import BrowserWindowPage, AlertsPage, FramesPage
 
 
 class TestBrowserWindow:
@@ -57,3 +57,22 @@ class TestAlertsPage:
         alert.send_keys(name)
         alert.accept()
         page.assert_result_text_for_prompt_box_button(f'You entered {name}')
+
+
+class TestFramesPage:
+
+    def test_first_frame(self, driver):
+        page = FramesPage(driver, 'https://demoqa.com./frames')
+        page.open()
+        text = page.get_frame_text('frame1')
+        width_height = page.get_frame_width_and_height('frame1')
+        page.assert_frame_text(text, 'This is a sample page')
+        page.assert_frame_width_and_height(width_height, ('500px', '350px'))
+
+    def test_second_frame(self, driver):
+        page = FramesPage(driver, 'https://demoqa.com./frames')
+        page.open()
+        text = page.get_frame_text('frame2')
+        width_height = page.get_frame_width_and_height('frame2')
+        page.assert_frame_text(text, 'This is a sample page')
+        page.assert_frame_width_and_height(width_height, ('100px', '100px'))

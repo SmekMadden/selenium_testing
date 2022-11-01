@@ -1,15 +1,11 @@
-import time
-
-import locators.alerts_window_locators
+from locators.alerts_window_locators import *
 from pages.base_page import BasePage
-
-from selenium.webdriver.support.ui import WebDriverWait as Wait
-from selenium.webdriver.support import expected_conditions as EC
 
 
 class BrowserWindowPage(BasePage):
-    loc = locators.alerts_window_locators.BrowserWindowsPageLocators
-    buttons = {'New tab': loc.NEW_TAB_B, 'New Window': loc.NEW_WINDOW_B,
+    loc = BrowserWindowsPageLocators()
+    buttons = {'New tab': loc.NEW_TAB_B,
+               'New Window': loc.NEW_WINDOW_B,
                'New Window Message': loc.NEW_WINDOW_MESSAGE_B}
 
     def open_tab(self, tab_name):
@@ -22,7 +18,7 @@ class BrowserWindowPage(BasePage):
 
 
 class AlertsPage(BasePage):
-    loc = locators.alerts_window_locators.AlertsPageLocators
+    loc = AlertsPageLocators()
     buttons = {'see alert': loc.SEE_ALERT_B,
                'alert will appear': loc.APPEAR_ALERT_APPEAR_AFTER_5_SEC_B,
                'confirm box': loc.CONFIRM_BOX_ALERT_B,
@@ -45,3 +41,34 @@ class AlertsPage(BasePage):
     def assert_result_text_for_prompt_box_button(self, text):
         assert text == self.element_is_present(self.loc.PROMPT_RESULT).text, \
             'Not expected text in the result message'
+
+
+class FramesPage(BasePage):
+    loc = FramesPageLocators()
+    frames = {'frame1': loc.FIRST_FRAME,
+              'frame2': loc.SECOND_FRAME
+              }
+
+    def get_frame_width_and_height(self, frame_num):
+        frame = self.element_is_present(self.frames[frame_num])
+        width = frame.get_attribute('width')
+        height = frame.get_attribute('height')
+
+        return width, height
+
+    def get_frame_text(self, frame_num):
+        frame = self.element_is_present(self.frames[frame_num])
+        self.driver.switch_to.frame(frame)
+        text = self.element_is_present(self.loc.TITLE_FRAME).text
+        self.driver.switch_to.default_content()
+
+        return text
+
+    @staticmethod
+    def assert_frame_text(text, text2):
+        assert text == text2, 'Frame text is not equal to expected'
+
+    @staticmethod
+    def assert_frame_width_and_height(actual, expected):
+        assert actual == expected, \
+            'Actual frame height and width are not equal to expected'
