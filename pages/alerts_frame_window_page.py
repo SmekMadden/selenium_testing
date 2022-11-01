@@ -72,3 +72,25 @@ class FramesPage(BasePage):
     def assert_frame_width_and_height(actual, expected):
         assert actual == expected, \
             'Actual frame height and width are not equal to expected'
+
+
+class NestedFramesPage(BasePage):
+    loc = NestedFramesPageLocators()
+
+    frames = {'parent': loc.PARENT_FRAME,
+              'child': loc.CHILD_FRAME}
+
+    frames_text = {'parent': loc.PARENT_TEXT,
+                   'child': loc.CHILD_TEXT}
+
+    def get_frame_text(self, name):
+        frame = self.element_is_present(self.frames[name])
+        self.driver.switch_to.frame(frame)
+        return self.element_is_present(self.frames_text[name]).text
+
+    def check_nested_frames(self):
+        parent_text = self.get_frame_text('parent')
+        assert parent_text == 'Parent frame', 'invalid parent frame title'
+
+        child_text = self.get_frame_text('child')
+        assert child_text == 'Child Iframe', 'invalid child frame title'

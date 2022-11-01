@@ -2,7 +2,7 @@ import time
 
 from faker import Faker
 
-from pages.alerts_frame_window_page import BrowserWindowPage, AlertsPage, FramesPage
+from pages.alerts_frame_window_page import BrowserWindowPage, AlertsPage, FramesPage, NestedFramesPage
 
 
 class TestBrowserWindow:
@@ -76,3 +76,10 @@ class TestFramesPage:
         width_height = page.get_frame_width_and_height('frame2')
         page.assert_frame_text(text, 'This is a sample page')
         page.assert_frame_width_and_height(width_height, ('100px', '100px'))
+
+
+class TestNestedFramePage:
+    def test_nested_frames(self, driver):
+        page = NestedFramesPage(driver, 'https://demoqa.com./nestedframes')
+        page.open()
+        page.check_nested_frames()
