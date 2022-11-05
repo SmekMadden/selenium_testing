@@ -94,3 +94,38 @@ class NestedFramesPage(BasePage):
 
         child_text = self.get_frame_text('child')
         assert child_text == 'Child Iframe', 'invalid child frame title'
+
+
+class ModalDialogsPage(BasePage):
+    loc = ModalDialogsPageLocators()
+
+    def click_small_modal_button(self):
+        self.element_is_visible(self.loc.SMALL_MODAL_BUTTON).click()
+
+    def click_large_modal_button(self):
+        self.element_is_visible(self.loc.LARGE_MODAL_BUTTON).click()
+
+    def get_small_modal_title_and_body(self):
+        small_modal_title = self.element_is_visible(self.loc.SMALL_MODAL_TITLE).text
+        small_body_text = self.element_is_visible(self.loc.SMALL_MODAL_BODY).text
+        return small_modal_title, small_body_text
+
+    def get_large_modal_title_and_body(self):
+        large_modal_title = self.element_is_visible(self.loc.LARGE_MODAL_TITLE).text
+        large_body_text = self.element_is_visible(self.loc.LARGE_MODAL_BODY).text
+        return large_modal_title, large_body_text
+
+    @staticmethod
+    def assert_small_modal_title_and_text(title, body):
+        assert (title, body) == ('Small Modal', 'This is a small modal. It has very less content'), \
+            'Invalid title or body in small modal'
+
+    @staticmethod
+    def assert_large_modal_title_and_text(title, body):
+        assert (title, len(body)) == ('Large Modal', 574), 'Invalid title or body in large modal'
+
+    def close_small_modal_button(self):
+        self.element_is_visible(self.loc.SMALL_MODAL_CLOSE_BUTTON).click()
+
+    def close_large_modal_button(self):
+        self.element_is_visible(self.loc.LARGE_MODAL_CLOSE_BUTTON).click()

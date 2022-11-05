@@ -2,7 +2,7 @@ import time
 
 from faker import Faker
 
-from pages.alerts_frame_window_page import BrowserWindowPage, AlertsPage, FramesPage, NestedFramesPage
+from pages.alerts_frame_window_page import BrowserWindowPage, AlertsPage, FramesPage, NestedFramesPage, ModalDialogsPage
 
 
 class TestBrowserWindow:
@@ -83,3 +83,22 @@ class TestNestedFramePage:
         page = NestedFramesPage(driver, 'https://demoqa.com./nestedframes')
         page.open()
         page.check_nested_frames()
+
+
+class TestModalDialogsPage:
+
+    def test_small_modal(self, driver):
+        page = ModalDialogsPage(driver, 'https://demoqa.com./modal-dialogs')
+        page.open()
+        page.click_small_modal_button()
+        title, body = page.get_small_modal_title_and_body()
+        page.assert_small_modal_title_and_text(title, body)
+        page.close_small_modal_button()
+
+    def test_large_modal(self, driver):
+        page = ModalDialogsPage(driver, 'https://demoqa.com./modal-dialogs')
+        page.open()
+        page.click_large_modal_button()
+        title, body = page.get_large_modal_title_and_body()
+        page.assert_large_modal_title_and_text(title, body)
+        page.close_large_modal_button()
