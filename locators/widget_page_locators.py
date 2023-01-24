@@ -10,3 +10,9 @@ class AccordianPageLocators:
 
     THIRD_SECTION = (By.CSS_SELECTOR, '#section3Heading')
     THIRD_SECTION_CONTENT = (By.CSS_SELECTOR, '#section3Content p')
+
+
+class AutoCompletePageLocators:
+    MULTI_FIELD = (By.CSS_SELECTOR, '#autoCompleteMultipleInput')
+    SINGLE_FIELD = (By.CSS_SELECTOR, '#autoCompleteSingleInput')
+    MULTI_REMOVE = (By.CSS_SELECTOR, '.auto-complete__multi-value__remove svg path')

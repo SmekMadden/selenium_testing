@@ -1,6 +1,6 @@
 import random
 
-from pages.widget_page import AccordianPage
+from pages.widget_page import AccordianPage, AutocompletePage
 
 
 class TestWidgets:
@@ -9,11 +9,13 @@ class TestWidgets:
             page = AccordianPage(driver, 'https://demoqa.com./accordian')
             page.open()
 
-            title, content = page.get_accordian_data(1)
-            page.assert_actual_data_with_valid_data(title, content, 1)
+            for accordian_number in [1, 2, 3]:
+                title, content = page.get_accordian_data(accordian_number)
+                page.assert_actual_data_with_valid_data(title, content, accordian_number)
 
-            title, content = page.get_accordian_data(2)
-            page.assert_actual_data_with_valid_data(title, content, 2)
-
-            title, content = page.get_accordian_data(3)
-            page.assert_actual_data_with_valid_data(title, content, 3)
+    class TestAutoCompletePage:
+        def test_autocomplete(self, driver):
+            page = AutocompletePage(driver, 'https://demoqa.com./auto-complete')
+            page.open()
+            page.fill_input_multi()
+            page.fill_input_single()

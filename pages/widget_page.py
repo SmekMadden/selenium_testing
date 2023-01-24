@@ -1,6 +1,11 @@
-from selenium.common import TimeoutException
+import random
+import time
 
-from locators.widget_page_locators import AccordianPageLocators
+from faker import Faker
+from selenium.common import TimeoutException
+from selenium.webdriver import Keys
+
+from locators.widget_page_locators import AccordianPageLocators, AutoCompletePageLocators
 from pages.base_page import BasePage
 
 
@@ -17,6 +22,7 @@ class AccordianPage(BasePage):
     }
 
     def get_accordian_data(self, num):
+
         accordian = {
             1: {
                 'title': self.loc.FIRST_SECTION,
@@ -45,3 +51,21 @@ class AccordianPage(BasePage):
             'Wrong title'
         assert len(content) == self.accordian_valid_data[acc_num]['content_len'], \
             'Wrong content'
+
+
+class AutocompletePage(BasePage):
+    loc = AutoCompletePageLocators
+    colors = ['Green', 'Black', 'White', 'Red', 'Blue']
+
+    def fill_input_multi(self):
+        input_multi = self.element_is_visible(self.loc.MULTI_FIELD)
+        for i in range(random.randrange(len(self.colors))):
+            random_color = random.choice(self.colors)
+            input_multi.send_keys(random_color[0:2])
+            input_multi.send_keys(Keys.ENTER)
+
+    def fill_input_single(self):
+        input_multi = self.element_is_visible(self.loc.SINGLE_FIELD)
+        random_color = random.choice(self.colors)
+        input_multi.send_keys(random_color)
+        input_multi.send_keys(Keys.ENTER)

@@ -1,7 +1,7 @@
 import requests
 from selenium.webdriver import ActionChains
-from selenium.webdriver.support.ui import WebDriverWait as Wait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait as Wait
 
 
 class BasePage:
