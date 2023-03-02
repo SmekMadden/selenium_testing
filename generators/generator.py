@@ -26,7 +26,10 @@ class GeneratePerson:
             'age': random.randint(10, 80),
             'email': self.fake.email(),
             'salary': random.randrange(10000, 100000),
-            'department': self.fake.job()
+            'department': self.fake.job(),
+            'mobile': self.fake.msisdn(),
+            'address': self.fake.address()
+            # 'date'
         }
 
 
